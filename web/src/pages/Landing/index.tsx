@@ -1,13 +1,27 @@
-import React from 'react';
-import './styles.css'
-import logoImg from '../../assets/images/logo.svg'
-import landingImg from '../../assets/images/landing.svg'
-import studyIcon from '../../assets/images/icons/study.svg'
-import giveClassesIcon from '../../assets/images/icons/give-classes.svg'
-import purpleHeartIcon from '../../assets/images/icons/purple-heart.svg'
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import "./styles.css";
+import logoImg from "../../assets/images/logo.svg";
+import landingImg from "../../assets/images/landing.svg";
+import studyIcon from "../../assets/images/icons/study.svg";
+import giveClassesIcon from "../../assets/images/icons/give-classes.svg";
+import purpleHeartIcon from "../../assets/images/icons/purple-heart.svg";
+import { Link } from "react-router-dom";
+import api from "../../services/api";
 
 const Landing = () => {
+  const [totalConnections, setTotalConnections] = useState<number | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    async function getConnections() {
+      const { data } = await api.get("/connections");
+      const { totalConnections } = data;
+      setTotalConnections(totalConnections);
+    }
+
+    getConnections();
+  }, []);
   return (
     <div id="page-landing">
       <div id="page-landing-content" className="container">
@@ -35,8 +49,8 @@ const Landing = () => {
 
         <div className="total-connections">
           <span>
-            Total de 200 conexões já realizadas
-          <img src={purpleHeartIcon} alt="Coração roxo" />
+            Total de {totalConnections} conexões já realizadas
+            <img src={purpleHeartIcon} alt="Coração roxo" />
           </span>
         </div>
       </div>

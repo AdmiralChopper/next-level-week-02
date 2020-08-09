@@ -1,35 +1,56 @@
-import React from 'react';
-import whatsappIcon from '../../assets/images/icons/whatsapp.svg';
-import './styles.css'
+import React from "react";
+import whatsappIcon from "../../assets/images/icons/whatsapp.svg";
+import "./styles.css";
+import api from "../../services/api";
 
-const TeacherItem = () => {
+export interface Proffy {
+  id: number;
+  name: string;
+  subject: string;
+  cost: number;
+  avatar: string;
+  bio: string;
+  whatsapp: string;
+}
+export interface ProffyItemProps {
+  info: Proffy;
+}
+
+const ProffyItem: React.FC<ProffyItemProps> = ({ info }) => {
+  const createConnection = () => {
+    api.post("/connections", {
+      user_id: info.id,
+    });
+  };
+
   return (
     <article className="teacher-item">
       <header>
-        <img src="https://avatars0.githubusercontent.com/u/59832418?s=460&u=f3fc286c2b56a19368f7d605ca3754f14f5d4a4b&v=4" alt="Imagem de perifl" />
+        <img src={info.avatar} alt="Imagem de perifl" />
         <div>
-          <strong>Carlos Castro</strong>
-          <span>Matemática</span>
+          <strong>{info.name}</strong>
+          <span>{info.subject}</span>
         </div>
       </header>
 
-      <p>
-        Professor muito bom
-            <br /><br />
-            Sério mesmo cara.
-          </p>
+      <p>{info.bio}</p>
 
       <footer>
         <p>
-          Preço/hora <strong>R$ 00,00</strong>
+          Preço/hora <strong>R$ {info.cost}</strong>
         </p>
-        <button type="button">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href={`https://wa.me/${info.whatsapp}`}
+          onClick={createConnection}
+        >
           <img src={whatsappIcon} alt="Whatsapp" />
-              Entrar em contato
-            </button>
+          Entrar em contato
+        </a>
       </footer>
     </article>
   );
 };
 
-export default TeacherItem;
+export default ProffyItem;
