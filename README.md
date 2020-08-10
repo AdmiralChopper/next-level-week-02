@@ -1,4 +1,4 @@
-# NLW01 Proffy
+# NLW02 Proffy
 
 Proffy Application developed on Next Level Week 02 by Rocketseat. 
 
